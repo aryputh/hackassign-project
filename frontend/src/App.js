@@ -1,43 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { supabase } from "./supabase";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Welcome from "./pages/Welcome";
+import Dashboard from "./pages/Dashboard";
+import Assignment from "./pages/Assignment";
+import ManageClass from "./pages/ManageClass";
+import Analytics from "./pages/Analytics";
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const { data, error } = await supabase.from("users").select("*");
-        if (error) throw error;
-        if (!data || data.length === 0) {
-          setError("No data found in Supabase.");
-        }
-        setUsers(data);
-      } catch (err) {
-        setError("Error fetching users: " + err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
   return (
-    <div>
-      <h1>Supabase Users</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <ul>
-        {users.map(user => (
-          <li key={user.id}>
-            {user.username}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Welcome />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/assignment/:id" element={<Assignment />} />
+        <Route path="/manage-class/:id" element={<ManageClass />} />
+        <Route path="/analytics/:id" element={<Analytics />} />
+      </Routes>
+    </Router>
   );
 }
 
