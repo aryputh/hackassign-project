@@ -9,12 +9,12 @@ import Analytics from "./pages/Analytics";
 function App() {
   return (
     <Router>
-      <Routes>
+        <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/assignment/:id" element={<Assignment />} />
-        <Route path="/manage-class/:id" element={<ManageClass />} />
-        <Route path="/analytics/:id" element={<Analytics />} />
+        <Route path="/assignment" element={<Assignment />} />
+        <Route path="/manage-class" element={<ManageClass />} />
+        <Route path="/analytics" element={<Analytics />} />
       </Routes>
     </Router>
   );
