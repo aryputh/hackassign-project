@@ -4,14 +4,9 @@ import { Link } from "react-router-dom";
 function Analytics() {
   return (
     <div>
-      <h1>Analytics Page</h1>
-      <nav>
-        <Link to="/"><button>Welcome</button></Link>
-        <Link to="/dashboard"><button>Dashboard</button></Link>
-        <Link to="/assignment"><button>Assignment</button></Link>
-        <Link to="/manage-class"><button>Manage Class</button></Link>
-        <Link to="/analytics"><button>Analytics</button></Link>
-      </nav>
+      <h1>Analytics</h1>
+      <p>Analytics would be here.</p>
+      <Link to="/dashboard"><button>Dashboard</button></Link>
     </div>
   );
 }
