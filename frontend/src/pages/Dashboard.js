@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../supabaseClient";
+import "../styles/dashboard.css";
+import "../styles/authpopup.css";
 
 const Dashboard = () => {
     const [classes, setClasses] = useState([]);
