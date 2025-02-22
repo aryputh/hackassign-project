@@ -1,38 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Welcome from './pages/Welcome';
-import Dashboard from './pages/Dashboard';
-import Assignment from './pages/Assignment';
-import Analytics from './pages/Analytics';
-import ManageClass from './pages/ManageClass';
-import Submission from './pages/Submission';
-import PrivateRoute from './components/PrivateRoute';
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Welcome from "./pages/Welcome";
+import Dashboard from "./pages/Dashboard";
+import Assignment from "./pages/Assignment";
+import Analytics from "./pages/Analytics";
+import ManageClass from "./pages/ManageClass";
+import Submission from "./pages/Submission";
+import AccessDenied from "./pages/AccessDenied";
+import supabase from "./supabaseClient";
 
 function App() {
-    const [user, setUser] = useState(() => {
-        // Get user from localStorage if it exists
-        return JSON.parse(localStorage.getItem('user')) || null;
-    });
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Save user to localStorage whenever it changes
-        if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        } else {
-            localStorage.removeItem('user');
-        }
-    }, [user]);
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+            setLoading(false);
+        };
 
-    // Setup routes such that you must be logged in to access pages except welcome page
+        fetchUser();
+
+        // Listen for auth state changes
+        const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user || null);
+        });
+
+        return () => {
+            authListener.subscription.unsubscribe();
+        };
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>; // Prevents incorrect redirects before user data is available
+    }
+
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Welcome user={user} setUser={setUser} />} />
-                <Route path="/dashboard" element={<PrivateRoute user={user}><Dashboard user={user} /></PrivateRoute>} />
-                <Route path="/assignment" element={<PrivateRoute user={user}><Assignment user={user} /></PrivateRoute>} />
-                <Route path="/analytics" element={<PrivateRoute user={user}><Analytics user={user} /></PrivateRoute>} />
-                <Route path="/manageclass" element={<PrivateRoute user={user}><ManageClass user={user} /></PrivateRoute>} />
-                <Route path="/submission" element={<PrivateRoute user={user}><Submission user={user} /></PrivateRoute>} />
+                {/* Redirect to dashboard if logged in */}
+                <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Welcome />} />
+
+                {/* Protected routes */}
+                <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/access-denied" />} />
+                <Route path="/assignment" element={user ? <Assignment /> : <Navigate to="/access-denied" />} />
+                <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/access-denied" />} />
+                <Route path="/manageclass" element={user ? <ManageClass /> : <Navigate to="/access-denied" />} />
+                <Route path="/submission" element={user ? <Submission /> : <Navigate to="/access-denied" />} />
+
+                {/* Access Denied Page */}
+                <Route path="/access-denied" element={<AccessDenied />} />
+
+                {/* Catch-all: Redirect unknown paths */}
+                <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} />} />
             </Routes>
         </Router>
     );
