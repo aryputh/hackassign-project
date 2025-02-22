@@ -1,72 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
-import "../styles/classpage.css";
 
 const ClassPage = () => {
     const { classId } = useParams();
     const navigate = useNavigate();
-    const [classInfo, setClassInfo] = useState(null);
-    const [students, setStudents] = useState([]);
+    const [classData, setClassData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isInstructor, setIsInstructor] = useState(false);
+    const [accessDenied, setAccessDenied] = useState(false);
 
     useEffect(() => {
-        const fetchClassData = async () => {
+        const fetchClass = async () => {
             setLoading(true);
             const { data: user } = await supabase.auth.getUser();
             if (!user?.user) {
-                navigate("/");
+                navigate("/login"); // Redirect if not logged in
                 return;
             }
 
             const userId = user.user.id;
-            const userMetadata = user.user.user_metadata;
-            setIsInstructor(userMetadata.role === "instructor");
 
-            const { data: classData, error: classError } = await supabase
-                .from("classes")
-                .select("id, name, instructor_id")
-                .eq("id", classId)
+            // Check if the user is part of the class
+            const { data: classInfo, error } = await supabase
+                .from("class_members")
+                .select("classes(id, name)")
+                .eq("user_id", userId)
+                .eq("class_id", classId)
                 .single();
 
-            if (classError) {
-                console.error("Error fetching class:", classError);
-                navigate("/");
-                return;
+            if (error || !classInfo) {
+                setAccessDenied(true);
+            } else {
+                setClassData(classInfo.classes);
             }
 
-            setClassInfo(classData);
-
-            const { data: membersData } = await supabase
-                .from("class_members")
-                .select("user_id")
-                .eq("class_id", classId);
-
-            setStudents(membersData.map(member => member.user_id));
             setLoading(false);
         };
 
-        fetchClassData();
+        fetchClass();
     }, [classId, navigate]);
+
+    if (loading) return <p>Loading class...</p>;
+    if (accessDenied) return navigate("/access-denied"); // If they don't have permission to view page
 
     return (
         <div>
-            {loading ? <p>Loading...</p> : (
-                <>
-                    <h1>{classInfo.name}</h1>
-                    <p>Instructor: {classInfo.instructor_id}</p>
-
-                    {isInstructor && (
-                        <div>
-                            <h2>Manage Students</h2>
-                            <ul>
-                                {students.map(student => <li key={student}>{student}</li>)}
-                            </ul>
-                        </div>
-                    )}
-                </>
-            )}
+            <h1>{classData?.name}</h1>
+            <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
         </div>
     );
 };

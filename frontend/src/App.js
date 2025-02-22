@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Welcome from "./pages/Welcome";
 import Dashboard from "./pages/Dashboard";
+import ClassPage from "./pages/ClassPage";
 import Assignment from "./pages/Assignment";
 import Analytics from "./pages/Analytics";
 import ManageClass from "./pages/ManageClass";
@@ -44,6 +45,7 @@ function App() {
 
                 {/* Protected routes */}
                 <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/access-denied" />} />
+                <Route path="/class/:classId" element={user ? <ClassPage /> : <Navigate to="/access-denied" />} />
                 <Route path="/assignment" element={user ? <Assignment /> : <Navigate to="/access-denied" />} />
                 <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/access-denied" />} />
                 <Route path="/manageclass" element={user ? <ManageClass /> : <Navigate to="/access-denied" />} />

@@ -137,7 +137,7 @@ const Dashboard = () => {
                         <div 
                             key={classItem.id} 
                             className="class-card" 
-                            onClick={() => handleClassClick(classItem.id)}
+                            onClick={() => navigate(`/class/${classItem.id}`)}
                         >
                             <h2>{classItem.name}</h2>
                             <p><strong>Instructor:</strong> {instructorNames[classItem.instructor_id] || "Unknown"}</p>
