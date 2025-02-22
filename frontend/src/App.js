@@ -8,7 +8,6 @@ import ManageClass from "./pages/ManageClass";
 import Submission from "./pages/Submission";
 import AccessDenied from "./pages/AccessDenied";
 import supabase from "./supabaseClient";
-import "./styles/app.css"; 
 
 function App() {
     const [user, setUser] = useState(null);

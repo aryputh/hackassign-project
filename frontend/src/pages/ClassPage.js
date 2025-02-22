@@ -31,7 +31,7 @@ const ClassPage = () => {
                 .single();
 
             if (classError) {
-                console.error("❌ Error fetching class:", classError);
+                console.error("Error fetching class:", classError);
                 navigate("/");
                 return;
             }

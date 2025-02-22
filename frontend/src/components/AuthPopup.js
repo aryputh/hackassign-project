@@ -50,13 +50,22 @@ const AuthPopup = ({ closePopup }) => {
     };
 
     return (
-        <div className="auth-popup-overlay">
-            <div className="auth-popup">
-                <span className="close-btn" onClick={closePopup}>&times;</span>
+        <div className="popup-overlay">
+            <div className="popup-content">
                 <h2>{isRegistering ? "Register" : "Login"}</h2>
-                {error && <p className="error">{error}</p>}
-                <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                {error && <p className="error-text">{error}</p>}
+                <input
+                    type="text"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
                 
                 {isRegistering && (
                     <select value={role} onChange={(e) => setRole(e.target.value)}>
@@ -65,8 +74,9 @@ const AuthPopup = ({ closePopup }) => {
                     </select>
                 )}
 
-                <button onClick={handleAuth}>{isRegistering ? "Register" : "Login"}</button>
-                <p onClick={() => setIsRegistering(!isRegistering)} className="switch-link">
+                <button className="button" onClick={handleAuth}>{isRegistering ? "Register" : "Login"}</button>
+                <button className="button" onClick={closePopup}>Cancel</button>
+                <p className="p-link" onClick={() => setIsRegistering(!isRegistering)}>
                     {isRegistering ? "Have an account? Login" : "No account? Register"}
                 </p>
             </div>

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
-import "../styles/dashboard.css";
-import "../styles/authpopup.css";
 
 const Dashboard = () => {
     const [classes, setClasses] = useState([]);
@@ -11,15 +9,17 @@ const Dashboard = () => {
     const [isInstructor, setIsInstructor] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [classTitle, setClassTitle] = useState("");
+    const [classError, setClassError] = useState("");
     const navigate = useNavigate(); // For navigating to class pages
 
     useEffect(() => {
         const fetchClasses = async () => {
             setLoading(true);
             const { data: user, error: userError } = await supabase.auth.getUser();
-            console.log(user?.user?.user_metadata?.role);
+            console.log(user.role); // Print our user role to console
+
             if (userError || !user?.user) {
-                console.error("❌ Error fetching user:", userError);
+                console.error("Error fetching user:", userError);
                 setLoading(false);
                 return;
             }
@@ -36,7 +36,7 @@ const Dashboard = () => {
                 .eq("user_id", userId);
 
             if (classError) {
-                console.error("❌ Error fetching classes:", classError);
+                console.error("Error fetching classes:", classError);
                 setLoading(false);
                 return;
             }
@@ -51,7 +51,7 @@ const Dashboard = () => {
                     .rpc("get_user_metadata", { user_ids: instructorIds });
 
                 if (instructorError) {
-                    console.error("❌ Error fetching instructor metadata:", instructorError);
+                    console.error("Error fetching instructor metadata:", instructorError);
                 } else {
                     const instructorMap = {};
                     instructorData.forEach(instr => {
@@ -74,9 +74,11 @@ const Dashboard = () => {
 
     const handleCreateClass = async () => {
         if (!classTitle.trim()) {
-            alert("Class title cannot be empty!");
+            setClassError("Class title cannot be empty!"); // Set error message
             return;
         }
+
+        setClassError(""); // Clear error when valid
 
         setLoading(true);
         const { data: user } = await supabase.auth.getUser();
@@ -86,10 +88,10 @@ const Dashboard = () => {
         }
 
         const instructorId = user.user.id;
-        console.log("🔍 Authenticated User ID:", instructorId);
+        console.log("Authenticated User ID:", instructorId);
 
         // Check what gets inserted
-        console.log("🔍 Inserting into classes:", { name: classTitle, instructor_id: instructorId });
+        console.log("Inserting into classes:", { name: classTitle, instructor_id: instructorId });
 
         const { data, error } = await supabase
             .from("classes")
@@ -97,7 +99,7 @@ const Dashboard = () => {
             .select();
 
         if (error) {
-            console.error("❌ Error creating class:", error);
+            console.error("Error creating class:", error);
             alert("Failed to create class!");
             setLoading(false);
             return;
@@ -119,14 +121,14 @@ const Dashboard = () => {
     };
 
     return (
-        <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+        <div>
             <h1>Welcome to Your Dashboard</h1>
             {isInstructor && (
-                <button className="add-class-btn" onClick={() => setShowPopup(true)}>
+                <button className="button" onClick={() => setShowPopup(true)}>
                     + Add Class
                 </button>
             )}
-            <button onClick={handleSignOut}>Sign Out</button>
+            <button className="button" onClick={handleSignOut}>Sign Out</button>
             <div className="class-grid">
                 {loading ? (
                     <p>Loading classes...</p>
@@ -150,14 +152,15 @@ const Dashboard = () => {
                 <div className="popup-overlay">
                     <div className="popup-content">
                         <h2>Create a New Class</h2>
+                        {classError && <p className="error-text">{classError}</p>}
                         <input
                             type="text"
                             placeholder="Enter class title"
                             value={classTitle}
                             onChange={(e) => setClassTitle(e.target.value)}
                         />
-                        <button onClick={handleCreateClass}>Create Class</button>
-                        <button onClick={() => setShowPopup(false)}>Cancel</button>
+                        <button className="button" onClick={handleCreateClass}>Create Class</button>
+                        <button className="button" onClick={() => setShowPopup(false)}>Cancel</button>
                     </div>
                 </div>
             )}
