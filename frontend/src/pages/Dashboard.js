@@ -16,56 +16,61 @@ const Dashboard = () => {
         const fetchClasses = async () => {
             setLoading(true);
             const { data: user, error: userError } = await supabase.auth.getUser();
-            console.log(user.role); // Print our user role to console
-
+    
             if (userError || !user?.user) {
                 console.error("Error fetching user:", userError);
                 setLoading(false);
                 return;
             }
-
+    
             const userId = user.user.id;
             const userMetadata = user.user.user_metadata;
-            console.log(userMetadata); // Log user metadata
-            console.log(user);
             setIsInstructor(userMetadata.role === "instructor");
-
+    
             const { data: classData, error: classError } = await supabase
                 .from("class_members")
-                .select("class_id, classes(id, name, instructor_id)")
+                .select("class_id, classes(id, name, instructor_id)") // Make sure this matches your table schema
                 .eq("user_id", userId);
-
+    
             if (classError) {
                 console.error("Error fetching classes:", classError);
                 setLoading(false);
                 return;
             }
-
+    
             const classList = classData.map(entry => entry.classes).filter(cls => cls !== null);
             setClasses(classList);
-
-            // Fetch instructor usernames
+    
+            // Get unique instructor IDs
             const instructorIds = [...new Set(classList.map(cls => cls.instructor_id))];
-            if (instructorIds.length > 0) {
-                const { data: instructorData, error: instructorError } = await supabase
-                    .rpc("get_user_metadata", { user_ids: instructorIds });
 
-                if (instructorError) {
-                    console.error("Error fetching instructor metadata:", instructorError);
+            // Ensure we only proceed if there are valid instructor IDs
+            if (instructorIds.length > 0) {
+                console.log("Instructor IDs being fetched:", instructorIds); // Debugging log
+
+                const { data: userList, error: userListError } = await supabase
+                    .from("user_profiles")
+                    .select("user_id, display_name")
+                    .in("user_id", instructorIds);
+
+                if (userListError) {
+                    console.error("Error fetching instructor names:", userListError);
                 } else {
                     const instructorMap = {};
-                    instructorData.forEach(instr => {
-                        instructorMap[instr.id] = instr.raw_user_meta_data.username;
+                    userList.forEach(user => {
+                        instructorMap[user.user_id] = user.display_name || "Unknown";
                     });
                     setInstructorNames(instructorMap);
                 }
+            } else {
+                console.warn("No valid instructor IDs found, skipping user_profiles query.");
             }
-
+    
             setLoading(false);
         };
-
+    
         fetchClasses();
-    }, []);
+    }, []);     
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -91,7 +96,7 @@ const Dashboard = () => {
         console.log("Authenticated User ID:", instructorId);
 
         // Check what gets inserted
-        console.log("Inserting into classes:", { name: classTitle, instructor_id: instructorId });
+        console.log("Inserting into classes:", { name: classTitle, user_id: instructorId });
 
         const { data, error } = await supabase
             .from("classes")

@@ -48,7 +48,7 @@ function App() {
                 <Route path="/class/:classId" element={user ? <ClassPage /> : <Navigate to="/access-denied" />} />
                 <Route path="/assignment" element={user ? <Assignment /> : <Navigate to="/access-denied" />} />
                 <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/access-denied" />} />
-                <Route path="/manageclass" element={user ? <ManageClass /> : <Navigate to="/access-denied" />} />
+                <Route path="/manageclass/:classId" element={user ? <ManageClass /> : <Navigate to="/access-denied" />} />
                 <Route path="/submission" element={user ? <Submission /> : <Navigate to="/access-denied" />} />
 
                 {/* Access Denied Page */}

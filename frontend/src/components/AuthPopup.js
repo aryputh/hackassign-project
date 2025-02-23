@@ -17,37 +17,40 @@ const AuthPopup = ({ closePopup }) => {
             setError("Please fill in all fields.");
             return;
         }
-
+    
         const email = formatEmail(username);
-
+    
         if (isRegistering) {
-            const { error: signUpError } = await supabase.auth.signUp({
+            const { data, error: signUpError } = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
-                    data: { username, role },
-                },
+                    data: {
+                        display_name: username,  // Use 'display_name' instead of 'username'
+                        role
+                    }
+                }
             });
-
+    
             if (signUpError) {
-                setError("Error creating account. Try again.");
+                setError(signUpError.message || "Error creating account. Try again.");
                 return;
             }
         } else {
-            const { error: signInError } = await supabase.auth.signInWithPassword({
+            const { data, error: signInError } = await supabase.auth.signInWithPassword({
                 email,
-                password,
+                password
             });
-
+    
             if (signInError) {
                 setError("Incorrect username or password.");
                 return;
             }
         }
-
+    
         closePopup();
         navigate("/dashboard");
-    };
+    };    
 
     return (
         <div className="popup-overlay">
