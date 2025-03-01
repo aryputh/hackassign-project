@@ -137,3 +137,13 @@ a:hover {
     text-align: left;
     cursor: pointer;
 }
+
+.switch-link {
+    color: #007bff;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.switch-link:hover {
+    text-decoration: underline;
+}

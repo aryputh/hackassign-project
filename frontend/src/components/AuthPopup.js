@@ -50,8 +50,8 @@ const AuthPopup = ({ closePopup }) => {
     };
 
     return (
-        <div className="auth-popup-overlay">
-            <div className="auth-popup">
+        <div className="popup-overlay">
+            <div className="popup-content">
                 <span className="close-btn" onClick={closePopup}>&times;</span>
                 <h2>{isRegistering ? "Register" : "Login"}</h2>
                 {error && <p className="error">{error}</p>}
