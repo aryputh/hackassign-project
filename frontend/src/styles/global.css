@@ -1,10 +1,105 @@
 /* For general styles (previously in index.css) */
 
+<<<<<<< Updated upstream
 /* Reset & global styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+=======
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Header Styling */
+h1, h2, h3 {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #333;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+/* Paragraph Styling */
+p {
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444;
+}
+
+/* Link Styling */
+a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Styling paragraphs that act as links */
+.p-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.p-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Error text */
+.error-text {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Popup Styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    width: 50%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Class Styling */
+.dashboard-container {
+    padding: 20px;
+>>>>>>> Stashed changes
     font-family: Arial, sans-serif;
 }
 
@@ -13,6 +108,7 @@ body {
     color: #333;
 }
 
+<<<<<<< Updated upstream
 /* Common button styles */
 button {
     padding: 10px 15px;
@@ -23,4 +119,35 @@ button {
 
 button:hover {
     opacity: 0.8;
+=======
+.class-card {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    width: 300px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    cursor: pointer;
+}
+
+.assignment-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.assignment-card {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    width: 300px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    cursor: pointer;
+>>>>>>> Stashed changes
 }
