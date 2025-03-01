@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
 import ManageClass from "./ManageClass";
@@ -13,6 +13,7 @@ const ClassPage = () => {
     const [isInstructor, setIsInstructor] = useState(false);
     const [showManageClass, setShowManageClass] = useState(false);
     const [showAddAssignment, setShowAddAssignment] = useState(false);
+    const [showEditAssignment, setShowEditAssignment] = useState(false);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [newAssignment, setNewAssignment] = useState({
         name: "",
@@ -62,7 +63,7 @@ const ClassPage = () => {
         fetchClass();
     }, [classId, navigate]);
 
-    const fetchAssignments = useCallback(async () => {
+    const fetchAssignments = async () => {
         const { data, error } = await supabase
             .from("assignments")
             .select("assignment_id, name, details, due_date, allow_late")
@@ -71,7 +72,29 @@ const ClassPage = () => {
         if (!error) {
             setAssignments(data);
         }
-    }, [classId]);
+    };
+
+    const handleEditAssignment = (assignment) => {
+        setSelectedAssignment(assignment);
+        setShowEditAssignment(true);
+    };
+
+    const handleSaveAssignment = async () => {
+        const { error } = await supabase
+            .from("assignments")
+            .update({
+                name: selectedAssignment.name,
+                details: selectedAssignment.details,
+                due_date: selectedAssignment.due_date,
+                allow_late: selectedAssignment.allow_late
+            })
+            .eq("assignment_id", selectedAssignment.assignment_id);
+
+        if (!error) {
+            setShowEditAssignment(false);
+            fetchAssignments();
+        }
+    };
 
     const handleAddAssignment = async () => {
         const { error } = await supabase.from("assignments").insert([{ 
@@ -102,6 +125,9 @@ const ClassPage = () => {
                             <p>{assignment.details}</p>
                             <p><strong>Due:</strong> {new Date(assignment.due_date).toLocaleDateString()}</p>
                             <p><strong>Late Submissions:</strong> {assignment.allow_late ? "Allowed" : "Not Allowed"}</p>
+                            {isInstructor && (
+                                <button onClick={() => handleEditAssignment(assignment)}>Manage Assignment</button>
+                            )}
                         </div>
                     ))
                 ) : (
@@ -130,6 +156,18 @@ const ClassPage = () => {
                         </label>
                         <button onClick={handleAddAssignment}>Save</button>
                         <button onClick={() => setShowAddAssignment(false)}>Cancel</button>
+                    </div>
+                </div>
+            )}
+            {showEditAssignment && (
+                <div className="popup-overlay">
+                    <div className="popup-content">
+                        <h2>Edit Assignment</h2>
+                        <input type="text" value={selectedAssignment.name} onChange={(e) => setSelectedAssignment({ ...selectedAssignment, name: e.target.value })} />
+                        <textarea value={selectedAssignment.details} onChange={(e) => setSelectedAssignment({ ...selectedAssignment, details: e.target.value })} />
+                        <input type="date" value={selectedAssignment.due_date} onChange={(e) => setSelectedAssignment({ ...selectedAssignment, due_date: e.target.value })} />
+                        <button onClick={handleSaveAssignment}>Save</button>
+                        <button onClick={() => setShowEditAssignment(false)}>Cancel</button>
                     </div>
                 </div>
             )}
