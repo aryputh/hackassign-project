@@ -96,8 +96,19 @@ const ClassPage = () => {
         }
     };
 
+    const handleDeleteAssignment = async (assignmentId) => {
+        const { error } = await supabase
+            .from("assignments")
+            .delete()
+            .eq("assignment_id", assignmentId);
+
+        if (!error) {
+            fetchAssignments();
+        }
+    };
+
     const handleAddAssignment = async () => {
-        const { error } = await supabase.from("assignments").insert([{ 
+        const { error } = await supabase.from("assignments").insert([{
             class_id: classId,
             name: newAssignment.name,
             details: newAssignment.details,
@@ -126,7 +137,10 @@ const ClassPage = () => {
                             <p><strong>Due:</strong> {new Date(assignment.due_date).toLocaleDateString()}</p>
                             <p><strong>Late Submissions:</strong> {assignment.allow_late ? "Allowed" : "Not Allowed"}</p>
                             {isInstructor && (
-                                <button onClick={() => handleEditAssignment(assignment)}>Manage Assignment</button>
+                                <>
+                                    <button onClick={() => handleEditAssignment(assignment)}>Edit</button>
+                                    <button onClick={() => handleDeleteAssignment(assignment.assignment_id)}>Delete</button>
+                                </>
                             )}
                         </div>
                     ))
@@ -141,7 +155,7 @@ const ClassPage = () => {
                 </>
             )}
             <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
-        
+
             {showManageClass && <ManageClass classId={classId} closePopup={() => setShowManageClass(false)} refreshClassName={(name) => setClassData(prev => ({ ...prev, name }))} />}
             {showAddAssignment && (
                 <div className="popup-overlay">
