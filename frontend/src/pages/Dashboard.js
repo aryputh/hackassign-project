@@ -1,18 +1,19 @@
+/* Dashboard.js */
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
-import "../styles/dashboard.css";
-import "../styles/authpopup.css";
+import "../styles/global.css";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const [classes, setClasses] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [instructorNames, setInstructorNames] = useState({}); // Store instructor usernames
+    const [instructorNames, setInstructorNames] = useState({});
 
     useEffect(() => {
         const fetchClasses = async () => {
             setLoading(true);
 
-            // Get logged-in user
             const { data: user, error: userError } = await supabase.auth.getUser();
             if (userError || !user?.user) {
                 console.error("❌ Error fetching user:", userError);
@@ -20,7 +21,6 @@ const Dashboard = () => {
                 return;
             }
 
-            // Fetch user's class data
             const userId = user.user.id;
             const { data: classData, error: classError } = await supabase
                 .from("class_members")
@@ -36,19 +36,19 @@ const Dashboard = () => {
             const classList = classData.map(entry => entry.classes) || [];
             setClasses(classList);
 
-            // Fetch instructor usernames
-            const instructorIds = [...new Set(classList.map(cls => cls.instructor_id))]; // Remove duplicates
+            const instructorIds = [...new Set(classList.map(cls => cls.instructor_id))];
             if (instructorIds.length > 0) {
                 const { data: instructorData, error: instructorError } = await supabase
-                    .rpc("get_user_metadata", { user_ids: instructorIds });
+                    .from("user_profiles")
+                    .select("user_id, display_name")
+                    .in("user_id", instructorIds);
 
                 if (instructorError) {
                     console.error("❌ Error fetching instructor metadata:", instructorError);
                 } else {
-                    // Convert array to object { instructor_id: username }
                     const instructorMap = {};
                     instructorData.forEach(instr => {
-                        instructorMap[instr.id] = instr.raw_user_meta_data.username;
+                        instructorMap[instr.user_id] = instr.display_name;
                     });
                     setInstructorNames(instructorMap);
                 }
@@ -62,32 +62,25 @@ const Dashboard = () => {
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
-        window.location.href = "/"; // Redirect to welcome page after sign out
+        window.location.href = "/";
     };
 
     return (
-        <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+        <div className="dashboard-container">
             <h1>Welcome to Your Dashboard</h1>
             <button onClick={handleSignOut}>Sign Out</button>
-            <div style={{ marginTop: "20px" }}>
+            <div className="class-grid">
                 {loading ? (
                     <p>Loading classes...</p>
                 ) : classes.length > 0 ? (
                     classes.map((classItem) => (
                         <div
                             key={classItem.id}
-                            style={{
-                                backgroundColor: "#f0f0f0",
-                                padding: "15px",
-                                marginBottom: "10px",
-                                borderRadius: "8px"
-                            }}
+                            className="class-card"
+                            onClick={() => navigate(`/class/${classItem.id}`)}
                         >
                             <h2>{classItem.name}</h2>
-                            <p>
-                                <strong>Instructor:</strong>{" "}
-                                {instructorNames[classItem.instructor_id] || "Loading..."}
-                            </p>
+                            <p><strong>Instructor:</strong> {instructorNames[classItem.instructor_id] || "Unknown"}</p>
                         </div>
                     ))
                 ) : (

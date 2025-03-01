@@ -65,7 +65,7 @@ const AuthPopup = ({ closePopup }) => {
                     </select>
                 )}
 
-                <button onClick={handleAuth}>{isRegistering ? "Register" : "Login"}</button>
+                <button className="button" onClick={handleAuth}>{isRegistering ? "Register" : "Login"}</button>
                 <p onClick={() => setIsRegistering(!isRegistering)} className="switch-link">
                     {isRegistering ? "Have an account? Login" : "No account? Register"}
                 </p>
