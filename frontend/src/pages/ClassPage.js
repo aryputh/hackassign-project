@@ -80,6 +80,33 @@ const ClassPage = () => {
     };
 
     const handleSaveAssignment = async () => {
+        if (!newAssignment.name || !newAssignment.due_date) {
+            window.alert("Name and due date are required.");
+            return;
+        }
+
+        const { error } = await supabase
+            .from("assignments")
+            .insert({
+                name: newAssignment.name,
+                details: newAssignment.details,
+                due_date: newAssignment.due_date,
+                allow_late: newAssignment.allow_late,
+                class_id: classId
+            });
+
+        if (!error) {
+            setShowAddAssignment(false);
+            fetchAssignments();
+        }
+    };
+
+    const handleUpdateAssignment = async () => {
+        if (!selectedAssignment.name || !selectedAssignment.due_date) {
+            window.alert("Name and due date are required.");
+            return;
+        }
+
         const { error } = await supabase
             .from("assignments")
             .update({
@@ -115,19 +142,19 @@ const ClassPage = () => {
             <div className="assignment-grid">
                 {assignments.length > 0 ? (
                     assignments.map((assignment) => (
-                        <div 
-                            key={assignment.assignment_id} 
-                            className="assignment-card" 
+                        <div
+                            key={assignment.assignment_id}
+                            className="assignment-card"
                             onClick={() => navigate(`/assignment/${assignment.assignment_id}`)}
                         >
                             <h3>{assignment.name}</h3>
                             <p>{assignment.details}</p>
-                            <p><strong>Due:</strong> {new Date(assignment.due_date).toLocaleDateString()}</p>
+                            <p><strong>Due:</strong> {assignment.due_date}</p>
                             <p><strong>Late Submissions:</strong> {assignment.allow_late ? "Allowed" : "Not Allowed"}</p>
                             {isInstructor && (
                                 <>
-                                    <button onClick={(e) => {e.stopPropagation(); handleEditAssignment(assignment);}}>Manage Assignment</button>
-                                    <button onClick={(e) => {e.stopPropagation(); handleDeleteAssignment(assignment.assignment_id);}}>Delete Assignment</button>
+                                    <button className="primary-btn" onClick={(e) => { e.stopPropagation(); handleEditAssignment(assignment); }}>Manage Assignment</button>
+                                    <button className="danger-btn" onClick={(e) => { e.stopPropagation(); handleDeleteAssignment(assignment.assignment_id); }}>Delete Assignment</button>
                                 </>
                             )}
                         </div>
@@ -138,13 +165,47 @@ const ClassPage = () => {
             </div>
             {isInstructor && (
                 <>
-                    <button onClick={() => setShowManageClass(true)}>Manage Class</button>
-                    <button onClick={() => setShowAddAssignment(true)}>Add Assignment</button>
+                    <button className="primary-btn" onClick={() => setShowManageClass(true)}>Manage Class</button>
+                    <button className="primary-btn" onClick={() => setShowAddAssignment(true)}>Add Assignment</button>
                 </>
             )}
-            <button onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
-        
+            <button className="secondary-btn" onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
+
             {showManageClass && <ManageClass classId={classId} closePopup={() => setShowManageClass(false)} refreshClassName={(name) => setClassData(prev => ({ ...prev, name }))} />}
+
+            {showAddAssignment && (
+                <div className="popup-overlay">
+                    <div className="popup-content">
+                        <h2>Add Assignment</h2>
+                        <input type="text" placeholder="Name" value={newAssignment.name} onChange={(e) => setNewAssignment({ ...newAssignment, name: e.target.value })} />
+                        <textarea placeholder="Details" value={newAssignment.details} onChange={(e) => setNewAssignment({ ...newAssignment, details: e.target.value })} />
+                        <input type="date" value={newAssignment.due_date} onChange={(e) => setNewAssignment({ ...newAssignment, due_date: e.target.value })} />
+                        <label>
+                            <input type="checkbox" checked={newAssignment.allow_late} onChange={(e) => setNewAssignment({ ...newAssignment, allow_late: e.target.checked })} />
+                            Allow Late Submissions
+                        </label>
+                        <button className="primary-btn" onClick={handleSaveAssignment}>Save</button>
+                        <button className="secondary-btn" onClick={() => setShowAddAssignment(false)}>Close</button>
+                    </div>
+                </div>
+            )}
+
+            {showEditAssignment && (
+                <div className="popup-overlay">
+                    <div className="popup-content">
+                        <h2>Edit Assignment</h2>
+                        <input type="text" placeholder="Name" value={selectedAssignment.name} onChange={(e) => setSelectedAssignment({ ...selectedAssignment, name: e.target.value })} />
+                        <textarea placeholder="Details" value={selectedAssignment.details} onChange={(e) => setSelectedAssignment({ ...selectedAssignment, details: e.target.value })} />
+                        <input type="date" value={selectedAssignment.due_date} onChange={(e) => setSelectedAssignment({ ...selectedAssignment, due_date: e.target.value })} />
+                        <label>
+                            <input type="checkbox" checked={selectedAssignment.allow_late} onChange={(e) => setSelectedAssignment({ ...selectedAssignment, allow_late: e.target.checked })} />
+                            Allow Late Submissions
+                        </label>
+                        <button className="primary-btn" onClick={handleUpdateAssignment}>Update</button>
+                        <button className="secondary-btn" onClick={() => setShowEditAssignment(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

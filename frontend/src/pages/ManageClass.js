@@ -105,7 +105,7 @@ const ManageClass = ({ classId, closePopup, refreshClassName }) => {
                     value={className}
                     onChange={(e) => setClassName(e.target.value)}
                 />
-                <button onClick={handleClassNameChange}>Save Name</button>
+                <button className="primary-btn" onClick={handleClassNameChange}>Save Name</button>
                 <h3>Students</h3>
                 <ul>
                     {students.length > 0 ? (
@@ -113,7 +113,7 @@ const ManageClass = ({ classId, closePopup, refreshClassName }) => {
                             <li key={student.user_id}>
                                 {student.display_name} ({student.email})
                                 {student.user_id !== instructorId && (
-                                    <button onClick={() => handleRemoveStudent(student.user_id)}>Remove</button>
+                                    <button className="danger-btn" onClick={() => handleRemoveStudent(student.user_id)}>Remove</button>
                                 )}
                             </li>
                         ))
@@ -127,9 +127,9 @@ const ManageClass = ({ classId, closePopup, refreshClassName }) => {
                     value={newStudentUsername}
                     onChange={(e) => setNewStudentUsername(e.target.value)}
                 />
-                <button onClick={handleAddStudent}>Add Student</button>
+                <button className="primary-btn" onClick={handleAddStudent}>Add Student</button>
                 {errorMessage && <p className="error-text">{errorMessage}</p>}
-                <button onClick={closePopup}>Close</button>
+                <button className="secondary-btn" onClick={closePopup}>Close</button>
             </div>
         </div>
     );

@@ -52,7 +52,7 @@ const AuthPopup = ({ closePopup }) => {
     return (
         <div className="popup-overlay">
             <div className="popup-content">
-                <span className="close-btn" onClick={closePopup}>&times;</span>
+                <span className="secondary-btn" onClick={closePopup}>&times;</span>
                 <h2>{isRegistering ? "Register" : "Login"}</h2>
                 {error && <p className="error">{error}</p>}
                 <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -65,7 +65,7 @@ const AuthPopup = ({ closePopup }) => {
                     </select>
                 )}
 
-                <button className="button" onClick={handleAuth}>{isRegistering ? "Register" : "Login"}</button>
+                <button className="primary-btn" onClick={handleAuth}>{isRegistering ? "Register" : "Login"}</button>
                 <p onClick={() => setIsRegistering(!isRegistering)} className="switch-link">
                     {isRegistering ? "Have an account? Login" : "No account? Register"}
                 </p>

@@ -15,7 +15,7 @@ const Welcome = ({ user, setUser }) => {
     return (
         <div>
             <h1>Welcome to HackAssign</h1>
-            <button onClick={() => setShowPopup(true)}>Continue</button>
+            <button className="primary-btn" onClick={() => setShowPopup(true)}>Continue</button>
             {showPopup && <AuthPopup setUser={setUser} closePopup={() => setShowPopup(false)} />}
         </div>
     );

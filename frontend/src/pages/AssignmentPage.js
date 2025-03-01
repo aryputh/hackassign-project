@@ -35,7 +35,7 @@ const AssignmentPage = () => {
             <p>{assignment.details}</p>
             <p><strong>Due Date:</strong> {new Date(assignment.due_date).toLocaleDateString()}</p>
             <p><strong>Late Submissions:</strong> {assignment.allow_late ? "Allowed" : "Not Allowed"}</p>
-            <button onClick={() => navigate(`/class/${assignment.class_id}`)}>Back to Class</button>
+            <button className="secondary-btn" onClick={() => navigate(`/class/${assignment.class_id}`)}>Back to Class</button>
         </div>
     );
 };

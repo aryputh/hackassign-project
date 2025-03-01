@@ -16,7 +16,7 @@ const Dashboard = () => {
 
             const { data: user, error: userError } = await supabase.auth.getUser();
             if (userError || !user?.user) {
-                console.error("❌ Error fetching user:", userError);
+                console.error("Error fetching user:", userError);
                 setLoading(false);
                 return;
             }
@@ -28,7 +28,7 @@ const Dashboard = () => {
                 .eq("user_id", userId);
 
             if (classError) {
-                console.error("❌ Error fetching classes:", classError);
+                console.error("Error fetching classes:", classError);
                 setLoading(false);
                 return;
             }
@@ -44,7 +44,7 @@ const Dashboard = () => {
                     .in("user_id", instructorIds);
 
                 if (instructorError) {
-                    console.error("❌ Error fetching instructor metadata:", instructorError);
+                    console.error("Error fetching instructor metadata:", instructorError);
                 } else {
                     const instructorMap = {};
                     instructorData.forEach(instr => {
@@ -68,7 +68,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard-container">
             <h1>Welcome to Your Dashboard</h1>
-            <button onClick={handleSignOut}>Sign Out</button>
+            <button className="secondary-btn" onClick={handleSignOut}>Sign Out</button>
             <div className="class-grid">
                 {loading ? (
                     <p>Loading classes...</p>
