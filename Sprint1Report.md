@@ -1,12 +1,12 @@
 # Sprint 1 Report 
 Video Link: INSERT
 ## What's New (User Facing)
- * Feature 1 or Bug Fix 1
- * Feature 2 or Bug Fix 2
- * Feature n or Bug Fix n
+ * Users can create an account and login to the site.
+ * Instructors can manage classes by adding/removing students.
+ * Users can navigate from their dashboard to various pages.
 
 ## Work Summary (Developer Facing)
-Provide a one paragraph synposis of what your team accomplished this sprint. Don't repeat the "What's New" list of features. Instead, help the instructor understand how you went about the work described there, any barriers you overcame, and any significant learnings for your team.
+We setup the foundations for our application by importing packages and linking them to properly communicate with one another. Three major components were required to make the application operational; creating the website UI, setting up databases to store user and assignment information, and a compiler for code to be run on. Carsyn was tasked with handling UI elements in the React app, Aryan built the databases utilizing Supabase, and James setup the Judge0 compiler. The difficulty of the project stemmed from working with an externally hosted app. Our team was very cautious regarding making changes to the main site, therefore many of the changes were tested on our local machines when possible. Given that these packages are new to our team, our changes would often be sent to Aryan to verify their functionality, as his work was geared towards linking up with the main website. In future sprints, we would like to continue the work in an incremental fashion, as many of these packages involved performing a lot of setup for a single contribution, and ideally the project should be built slowly over time with its features for manageability.
 
 ## Unfinished Work
 If applicable, explain the work you did not finish in this sprint. For issues/user stories in the current sprint that have not been closed, (a) any progress toward completion of the issues has been clearly tracked (by checking the checkboxes of  acceptance criteria), (b) a comment has been added to the issue to explain why the issue could not be completed (e.g., "we ran out of time" or "we did not anticipate it would be so much work"), and (c) the issue is added to a subsequent sprint, so that it can be addressed later.
@@ -14,9 +14,13 @@ If applicable, explain the work you did not finish in this sprint. For issues/us
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
 
- * URL of issue 1
- * URL of issue 2
- * URL of issue n
+ * https://github.com/aryputh/hackassign-project/issues/4
+ * https://github.com/aryputh/hackassign-project/issues/7
+ * https://github.com/aryputh/hackassign-project/issues/6
+ * https://github.com/aryputh/hackassign-project/issues/10
+ * https://github.com/aryputh/hackassign-project/issues/5
+ * https://github.com/aryputh/hackassign-project/issues/11
+ * https://github.com/aryputh/hackassign-project/issues/13
 
  Desirables (Remove this section when you save the file):
   * Each issue should be assigned to a milestone
@@ -47,13 +51,12 @@ Please review the following code files, which were actively developed during thi
  
 ## Retrospective Summary
 Here's what went well:
-  * Item 1
-  * Item 2
-  * Item x
+  * Relevant packages for the project were identified and implemented successfully.
+  * A plan for the core features of the site is set as a baseline.
  
 Here's what we'd like to improve:
-   * Item 1
-   * Item 2
+   * Familiarity with the different packages and proper communication and design principles.
+   * Working together frequently on the project instead of mostly independently.
    * Item x
   
 Here are changes we plan to implement in the next sprint:
