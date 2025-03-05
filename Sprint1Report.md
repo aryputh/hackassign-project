@@ -46,10 +46,7 @@ Here's what went well:
 * Our core features (listed above) were delivered, we figured out how to get Supabase connected and working with our platform, and defined user roles clearly. This allowed us to change what the user sees depending on their permissions. Using Supabase simplified authentication and database handling, which saved us some time.
  
 Here's what we'd like to improve:
-* Some things that didn’t go well were time estimation, handling state updates, and testing across different devices and environments.
- * Some tasks were more complex than we initially thought, which messed up our estimated effort numbers.
- * Since Supabase and Firebase setup was needed to get Judge0 working on the platform, we had issues getting it to work and testing it.
- * We plan to implement Judge0 fully by the end of the next sprint.
+* Some things that didn’t go well were time estimation, handling state updates, and testing across different devices and environments. Some tasks were more complex than we initially thought, which messed up our estimated effort numbers. Since Supabase and Firebase setup was needed to get Judge0 working on the platform, we had issues getting it to work and testing it. We plan to implement Judge0 fully by the end of the next sprint.
  
 Here are changes we plan to implement in the next sprint:
 * We created and planned multiple actionable items to improve our process and platform. The first was to improve time estimation, which we plan to do by timeboxing or breaking larger problems into smaller and more manageable chunks.
