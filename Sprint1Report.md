@@ -41,10 +41,10 @@ Please review the following code files, which were actively developed during thi
  
 ## Retrospective Summary
 Here's what went well:
- * INSERT
-<br>
+* INSERT
+ 
 Here's what we'd like to improve:
- * INSERT
-<br>
+* INSERT
+ 
 Here are changes we plan to implement in the next sprint:
- * INSERT
+* INSERT
