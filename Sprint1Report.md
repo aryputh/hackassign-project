@@ -27,7 +27,7 @@ Here are links to the issues that we completed in this sprint:
  
  ## Incomplete Issues/User Stories
  Here are links to issues we worked on but did not complete in this sprint:
- * [Issue 1](INSERT) <<INSERT EXPLANATION WHY ISSUE NOT COMPLETE>>
+ * [INSERT](INSERT) <<INSERT EXPLANATION WHY ISSUE NOT COMPLETE>>
 
 ## Code Files for Review
 Please review the following code files, which were actively developed during this sprint, for quality:
@@ -42,7 +42,9 @@ Please review the following code files, which were actively developed during thi
 ## Retrospective Summary
 Here's what went well:
  * INSERT
+<br>
 Here's what we'd like to improve:
  * INSERT
+<br>
 Here are changes we plan to implement in the next sprint:
  * INSERT
