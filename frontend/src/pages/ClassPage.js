@@ -48,7 +48,7 @@ const ClassPage = () => {
             fetchAssignments();
 
             if (classInfo.instructor_id) {
-                const { data: instructor, error: instructorError } = await supabase
+                const { data: instructor} = await supabase
                     .from("user_profiles")
                     .select("display_name")
                     .eq("user_id", classInfo.instructor_id)
@@ -148,7 +148,6 @@ const ClassPage = () => {
                             onClick={() => navigate(`/assignment/${assignment.assignment_id}`)}
                         >
                             <h3>{assignment.name}</h3>
-                            <p>{assignment.details}</p>
                             <p><strong>Due:</strong> {assignment.due_date}</p>
                             <p><strong>Late Submissions:</strong> {assignment.allow_late ? "Allowed" : "Not Allowed"}</p>
                             {isInstructor && (
