@@ -30,7 +30,8 @@ const AuthPopup = ({ closePopup }) => {
             });
 
             if (signUpError) {
-                setError("Error creating account. Try again.");
+                console.error(signUpError);
+                setError(signUpError.message);
                 return;
             }
         } else {
@@ -54,7 +55,7 @@ const AuthPopup = ({ closePopup }) => {
             <div className="popup-content">
                 <span className="secondary-btn" onClick={closePopup}>&times;</span>
                 <h2>{isRegistering ? "Register" : "Login"}</h2>
-                {error && <p className="error">{error}</p>}
+                {error && <p className="error-text">{error}</p>}
                 <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 
