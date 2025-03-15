@@ -12,7 +12,7 @@ Video Link: INSERT
 We setup the foundations for our application by importing packages and linking them to properly communicate with one another. Three major components were required to make the application operational; creating the website UI, setting up databases to store user and assignment information, and a compiler for code to be run on. Carsyn was tasked with handling UI elements in the React app, Aryan built the databases utilizing Supabase, and James setup the Judge0 compiler. The difficulty of the project stemmed from working with an externally hosted app. Our team was very cautious regarding making changes to the main site, therefore many of the changes were tested on our local machines when possible. Given that these packages are new to our team, our changes would often be sent to Aryan to verify their functionality, as his work was geared towards linking up with the main website. In future sprints, we would like to continue the work in an incremental fashion, as many of these packages involved performing a lot of setup for a single contribution, and ideally the project should be built slowly over time with its features for manageability.
 
 ## Unfinished Work
-* INSERT
+* We finished everything we planned to furing this sprint.
 
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
@@ -26,10 +26,6 @@ Here are links to the issues that we completed in this sprint:
  * [US05-1 Add ability for instructors to create, delete, rename, and add users to classes](https://github.com/aryputh/hackassign-project/issues/16)
  * [US05-2 Allow users to view assignments](https://github.com/aryputh/hackassign-project/issues/17)
  * [US05-3 Allow instructors to manage assignments](https://github.com/aryputh/hackassign-project/issues/18)
- 
-## Incomplete Issues/User Stories
-Here are links to issues we worked on but did not complete in this sprint:
- * [INSERT](INSERT): INSERT EXPLANATION WHY ISSUE NOT COMPLETE
 
 ## Code Files for Review
 Please review the following code files, which were actively developed during this sprint, for quality:
