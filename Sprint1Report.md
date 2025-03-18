@@ -12,7 +12,7 @@ Video Link: https://youtu.be/3tUK_hEXANg
 We setup the foundations for our application by importing packages and linking them to properly communicate with one another. Three major components were required to make the application operational; creating the website UI, setting up databases to store user and assignment information, and a compiler for code to be run on. Carsyn was tasked with handling UI elements in the React app, Aryan built the databases utilizing Supabase, and James setup the Judge0 compiler. The difficulty of the project stemmed from working with an externally hosted app. Our team was very cautious regarding making changes to the main site, therefore many of the changes were tested on our local machines when possible. Given that these packages are new to our team, our changes would often be sent to Aryan to verify their functionality, as his work was geared towards linking up with the main website. In future sprints, we would like to continue the work in an incremental fashion, as many of these packages involved performing a lot of setup for a single contribution, and ideally the project should be built slowly over time with its features for manageability.
 
 ## Unfinished Work
-We finished everything we planned to furing this sprint.
+We finished everything we planned to during this sprint.
 
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
