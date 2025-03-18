@@ -1,5 +1,5 @@
 # Sprint 1 Report 
-Video Link: INSERT
+Video Link: https://youtu.be/8wnGmL_0vFY
 
 ## What's New (User Facing)
  * Users can create an account and login to the site.
