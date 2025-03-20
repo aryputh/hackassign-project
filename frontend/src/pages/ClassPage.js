@@ -134,6 +134,44 @@ const ClassPage = () => {
         }
     };
 
+    // Handle class deletion
+    const handleDeleteClass = async () => {
+        // First, delete all assignments related to this class
+        const { error: deleteAssignmentsError } = await supabase
+            .from("assignments")
+            .delete()
+            .eq("class_id", classId);
+
+        if (deleteAssignmentsError) {
+            console.error("Error deleting assignments:", deleteAssignmentsError);
+            return;
+        }
+
+        // Next, delete class members
+        const { error: deleteClassMembersError } = await supabase
+            .from("class_members")
+            .delete()
+            .eq("class_id", classId);
+
+        if (deleteClassMembersError) {
+            console.error("Error deleting class members:", deleteClassMembersError);
+            return;
+        }
+
+        // Finally, delete the class itself
+        const { error: deleteClassError } = await supabase
+            .from("classes")
+            .delete()
+            .eq("id", classId);
+
+        if (!deleteClassError) {
+            // Redirect to the dashboard after deleting the class
+            navigate("/dashboard");
+        } else {
+            console.error("Error deleting class:", deleteClassError);
+        }
+    };
+
     return (
         <div className="class-container">
             <h1>{classData?.name}</h1>
@@ -166,6 +204,7 @@ const ClassPage = () => {
                 <>
                     <button className="primary-btn" onClick={() => setShowManageClass(true)}>Manage Class</button>
                     <button className="primary-btn" onClick={() => setShowAddAssignment(true)}>Add Assignment</button>
+                    <button className="danger-btn" onClick={handleDeleteClass}>Delete Class</button>
                 </>
             )}
             <button className="secondary-btn" onClick={() => navigate("/dashboard")}>Back to Dashboard</button>
