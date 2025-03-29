@@ -9,6 +9,12 @@ export default function CodingPage() {
   const [isRunning, setIsRunning] = useState(false);
   const navigate = useNavigate();
 
+  const languageOptions = [
+    { label: 'Python', value: 109 },
+    { label: 'Java', value: 91 },
+    { label: 'C++', value: 105 },
+  ];
+
   async function handleSubmit() {
     setIsRunning(true);
     setOutput('Running your code...');
@@ -44,9 +50,19 @@ export default function CodingPage() {
     setIsRunning(false);
   };
 
+  function handleLanguageChange(event) {
+    setLanguage(event.target.value);
+    setOutput("Changed language to language ID " + event.target.value);
+  }
+
   return (
     <div>
       <h1>Develop Code Here!</h1>
+      <select value={languageOptions['Python']} onChange={handleLanguageChange}>
+        {languageOptions.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
       <textarea
         value={code}
         onChange={(e) => setCode(e.target.value)}
