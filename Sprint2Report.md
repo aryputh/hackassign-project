@@ -35,4 +35,6 @@ Here's what we'd like to improve:
    * Item x
   
 Here are changes we plan to implement in the next sprint:
-   * INSERT
+   * Fully implement Judge0 compiling and results
+   * Analytics at different levels
+   * Fully styled system
