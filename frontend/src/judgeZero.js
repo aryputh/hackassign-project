@@ -8,7 +8,7 @@ export async function runCode(language, code) {
     const data = {
       language_id: language,  // Language ID
       source_code: code,      // Source code to compile
-      stdin: '',              // You can add input here if needed
+      stdin: '',              
     };
 
     // Making POST request to Judge0 API
@@ -20,7 +20,29 @@ export async function runCode(language, code) {
     });
 
     // Return the submission ID, which is needed to get the result
-    console.log(response.data.token);
+    return response.data.token;
+  } catch (error) {
+    console.error("Error running code:", error);
+    throw error;
+  }
+};
+
+export async function runTestCase(language, code, input, expectedOutput) {
+  try {
+    const data = {
+      language_id: language,
+      source_code: code,
+      stdin: input,
+      expected_output: expectedOutput,
+    }
+
+    const response = await axios.post(JUDGE0_API_URL, data, {
+      headers: {
+        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+        "X-RapidAPI-Key": "90ef3cc051msh196e24185f0fedap187c8ejsn7178b3ec23b5",
+      }
+    });
+
     return response.data.token;
   } catch (error) {
     console.error("Error running code:", error);
