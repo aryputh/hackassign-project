@@ -133,6 +133,7 @@ const Dashboard = () => {
         <div className="dashboard-container">
             <h1>Welcome to Your Dashboard</h1>
             <button className="secondary-btn" onClick={handleSignOut}>Sign Out</button>
+            <button className="secondary-btn" onClick={() => navigate("/codingpage")}>Go to Compiler</button>
 
             {/* Show Add Class button only if the user is an instructor */}
             {isInstructor && (

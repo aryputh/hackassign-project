@@ -8,6 +8,7 @@ import Analytics from "./pages/Analytics";
 import ManageClass from "./pages/ManageClass";
 import Submission from "./pages/Submission";
 import AccessDenied from "./pages/AccessDenied";
+import CodingPage from "./pages/CodingPage";
 import supabase from "./supabaseClient";
 import "./styles/global.css";
 
@@ -47,6 +48,7 @@ function App() {
                 <Route path="/manageclass/:classId" element={user ? <ManageClass /> : <Navigate to="/access-denied" />} />
                 <Route path="/assignment/:assignmentId" element={user ? <AssignmentPage /> : <Navigate to="/access-denied" />} />
                 <Route path="/submission" element={user ? <Submission /> : <Navigate to="/access-denied" />} />
+                <Route path="/codingpage" element={user ? <CodingPage /> : <Navigate to="/access-denied" />} />
                 <Route path="/access-denied" element={<AccessDenied />} />
                 <Route path="*" element={<Navigate to={user ? "/dashboard" : "/"} />} />
             </Routes>
