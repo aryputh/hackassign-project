@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const JUDGE0_API_URL = "https://judge0-ce.p.rapidapi.com/submissions";
+const JUDGE0_API_URL = process.env.REACT_APP_JUDGE0_API_URL;
+const JUDGE0_API_HOST = process.env.REACT_APP_JUDGE0_API_HOST;
+const JUDGE0_API_KEY = process.env.REACT_APP_JUDGE0_API_KEY;
 
 export async function runCode(language, code) {
   try {
@@ -14,8 +16,8 @@ export async function runCode(language, code) {
     // Making POST request to Judge0 API
     const response = await axios.post(JUDGE0_API_URL, data, {
       headers: {
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "90ef3cc051msh196e24185f0fedap187c8ejsn7178b3ec23b5",
+        "X-RapidAPI-Host": JUDGE0_API_HOST,
+        "X-RapidAPI-Key": JUDGE0_API_KEY,
       }
     });
 
@@ -38,8 +40,8 @@ export async function runTestCase(language, code, input, expectedOutput) {
 
     const response = await axios.post(JUDGE0_API_URL, data, {
       headers: {
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "90ef3cc051msh196e24185f0fedap187c8ejsn7178b3ec23b5",
+        "X-RapidAPI-Host": JUDGE0_API_HOST,
+        "X-RapidAPI-Key": JUDGE0_API_KEY,
       }
     });
 
@@ -55,8 +57,8 @@ export async function getResult(token) {
   try {
     const response = await axios.get(`${JUDGE0_API_URL}/${token}`, {
       headers: {
-        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "90ef3cc051msh196e24185f0fedap187c8ejsn7178b3ec23b5",
+        "X-RapidAPI-Host": JUDGE0_API_HOST,
+        "X-RapidAPI-Key": JUDGE0_API_KEY,
       }
     });
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { runCode, runTestCase, getResult } from '../judgeZero';
+import { runCode, runTestCase, getResult } from '../components/judgeZero';
 import { useNavigate } from 'react-router-dom';
 
 export default function CodingPage() {
@@ -109,9 +109,9 @@ export default function CodingPage() {
   return (
     <div>
       <h1>Develop Code Here!</h1>
-      <select value={languageOptions['Python']} onChange={handleLanguageChange}>
+      <select value={language} onChange={handleLanguageChange}>
         {languageOptions.map((option) => (
-          <option value={option.value}>{option.label}</option>
+          <option key={option.value} value={option.value}>{option.label}</option>
         ))}
       </select>
       <textarea
