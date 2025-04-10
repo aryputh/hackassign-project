@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
 import TestCasePopup from "../components/TestCasePopup";
+import { runTestCase, getResult } from "../components/judgeZero";
 import "../styles/global.css";
 
 const AssignmentPage = () => {
@@ -13,6 +14,10 @@ const AssignmentPage = () => {
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [selectedTestCase, setSelectedTestCase] = useState(null)
     const [isInstructor, setIsInstructor] = useState(false);
+    const [code, setCode] = useState('');
+    const [language, setLanguage] = useState(109);
+    const [output, setOutput] = useState('');
+    const [isRunning, setIsRunning] = useState(false);
 
     // Fetch assignment details
     useEffect(() => {
@@ -83,6 +88,35 @@ const AssignmentPage = () => {
         setPopupOpen(true);
     };
 
+    const handleRunTests = async () => {
+        setIsRunning(true);
+        setOutput("Running tests...");
+        let results = [];
+
+        try {
+            for (let test of testCases) {
+                const token = await runTestCase(language, code, test.input, test.expected_output);
+                let result = await getResult(token);
+                while (result.status.id === 2) {
+                    result = await getResult(token);
+                }
+
+                let actualOutput = result.stdout?.trim() || "";
+                let passed = result.status.id === 3 && actualOutput === test.expected_output.trim();
+                let errorMessage = result.stderr || result.compile_output || result.message || "Unknown Error";
+
+                results.push(
+                    `Input: ${test.input}\nExpected: ${test.expected_output}\nReceived: ${actualOutput}\nResult: ${passed ? '✅ Passed' : '❌ Failed'}${!passed && result.status.id !== 3 ? `\nError: ${errorMessage}` : ''}`
+                );
+            }
+            setOutput(results.join('\n---\n'));
+        } catch (err) {
+            setOutput("❌ Compilation or Runtime Error:\n" + (err.response?.data?.message || err.message));
+        }
+
+        setIsRunning(false);
+    };
+
     if (loading) return <p>Loading assignment...</p>;
     if (!assignment) return <p>Assignment not found.</p>;
 
@@ -118,6 +152,31 @@ const AssignmentPage = () => {
                     </li>
                 ))}
             </ul>
+
+            {testCases.length > 0 && (
+                <>
+                    <h2>Run Your Code</h2>
+                    <select value={language} onChange={(e) => setLanguage(Number(e.target.value))}>
+                        <option value={109}>Python</option>
+                        <option value={91}>Java</option>
+                        <option value={105}>C++</option>
+                    </select>
+                    <textarea
+                        rows="10"
+                        cols="80"
+                        placeholder="Write your code here..."
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                    />
+                    <br />
+                    <button className="primary-btn" onClick={handleRunTests} disabled={isRunning}>
+                        {isRunning ? "Running..." : "Run Test Cases"}
+                    </button>
+
+                    <h3>Output:</h3>
+                    <pre className="output-box">{output}</pre>
+                </>
+            )}
 
             <TestCasePopup 
                 isOpen={isPopupOpen} 
