@@ -12,7 +12,7 @@ INS
 
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
- * [INS](INS)
+ * [US03-4 Fully Implement Judge0 API](https://github.com/aryputh/hackassign-project/issues/30)
  
 ## Incomplete Issues/User Stories
 INS
