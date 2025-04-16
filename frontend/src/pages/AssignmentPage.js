@@ -120,11 +120,20 @@ const AssignmentPage = () => {
                 const passed = actualOutput.includes(test.expected_output.trim());
                 if (passed) passedCount++;
 
-                const errorMessage = result.stderr || result.compile_output || result.message || "Unknown Error";
+                const errorMessage = result.stderr || result.compile_output || result.message || "";
 
-                results.push(
-                    `Input: ${test.input}\nExpected: ${test.expected_output}\nReceived: ${actualOutput}\nResult: ${passed ? '✅ Passed' : '❌ Failed'}${!passed && result.status.id !== 3 ? `\nError: ${errorMessage}` : ''}`
-                );
+                let message = `Input: ${test.input}\nExpected: ${test.expected_output}\nReceived: ${actualOutput}\nResult: ${passed ? '✅ Passed' : '❌ Failed'}`;
+
+                if (!passed) {
+                    if (result.status.id !== 3 && errorMessage != "") {
+                        message += `\nError: ${errorMessage}`;
+                    }
+                    if (test.hint) {
+                        message += `\nHint: ${test.hint}`;
+                    }
+                }
+
+                results.push(message);
             }
 
             setOutput(results.join('\n---\n'));
