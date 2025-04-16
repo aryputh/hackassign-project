@@ -4,7 +4,7 @@ import Welcome from "./pages/Welcome";
 import Dashboard from "./pages/Dashboard";
 import ClassPage from "./pages/ClassPage";
 import AssignmentPage from "./pages/AssignmentPage";
-import Analytics from "./pages/Analytics";
+import Analytics from "./pages/AnalyticsPage";
 import ManageClass from "./pages/ManageClass";
 import Submission from "./pages/Submission";
 import AccessDenied from "./pages/AccessDenied";
@@ -44,7 +44,7 @@ function App() {
                 <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Welcome />} />
                 <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/access-denied" />} />
                 <Route path="/class/:classId" element={user ? <ClassPage /> : <Navigate to="/access-denied" />} />
-                <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/access-denied" />} />
+                <Route path="/analytics/:classId" element={user ? <Analytics /> : <Navigate to="/access-denied" />} />
                 <Route path="/manageclass/:classId" element={user ? <ManageClass /> : <Navigate to="/access-denied" />} />
                 <Route path="/assignment/:assignmentId" element={user ? <AssignmentPage /> : <Navigate to="/access-denied" />} />
                 <Route path="/submission" element={user ? <Submission /> : <Navigate to="/access-denied" />} />

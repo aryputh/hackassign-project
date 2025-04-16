@@ -11,6 +11,7 @@ const AssignmentPage = () => {
     const [assignment, setAssignment] = useState(null);
     const [loading, setLoading] = useState(true);
     const [testCases, setTestCases] = useState([]);
+    const [scores, setScores] = useState([]);
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [selectedTestCase, setSelectedTestCase] = useState(null)
     const [isInstructor, setIsInstructor] = useState(false);
@@ -52,7 +53,8 @@ const AssignmentPage = () => {
                 setIsInstructor(classInfo.instructor_id === userId);
             }
 
-            fetchTestCases();
+            await fetchTestCases();
+            if (classInfo.instructor_id === userId) await fetchScores();
         };
 
         // Fetch test cases for the assignment
@@ -65,6 +67,14 @@ const AssignmentPage = () => {
             if (!error && data) {
                 setTestCases(data);
             }
+        };
+
+        const fetchScores = async () => {
+            const { data } = await supabase
+                .from("scores")
+                .select("*, user_profiles(display_name)")
+                .eq("assignment_id", assignmentId);
+            if (data) setScores(data);
         };
 
         fetchAssignment();
@@ -91,7 +101,13 @@ const AssignmentPage = () => {
     const handleRunTests = async () => {
         setIsRunning(true);
         setOutput("Running tests...");
+
+        const { data: userData } = await supabase.auth.getUser();
+        const userId = userData?.user?.id;
+        if (!userId) return;
+
         let results = [];
+        let passedCount = 0;
 
         try {
             for (let test of testCases) {
@@ -101,15 +117,28 @@ const AssignmentPage = () => {
                     result = await getResult(token);
                 }
 
-                let actualOutput = result.stdout?.trim() || "";
-                let passed = result.status.id === 3 && actualOutput === test.expected_output.trim();
-                let errorMessage = result.stderr || result.compile_output || result.message || "Unknown Error";
+                const actualOutput = result.stdout?.trim() || "";
+                const passed = result.status.id === 3 && actualOutput === test.expected_output.trim();
+                if (passed) passedCount++;
+
+                const errorMessage = result.stderr || result.compile_output || result.message || "Unknown Error";
 
                 results.push(
                     `Input: ${test.input}\nExpected: ${test.expected_output}\nReceived: ${actualOutput}\nResult: ${passed ? '✅ Passed' : '❌ Failed'}${!passed && result.status.id !== 3 ? `\nError: ${errorMessage}` : ''}`
                 );
             }
+
             setOutput(results.join('\n---\n'));
+
+            const score = Math.round((passedCount / testCases.length) * 100);
+            const { error: upsertError } = await supabase.from("scores").upsert({
+                assignment_id: assignmentId,
+                user_id: userId,
+                score,
+                last_submitted: new Date().toISOString(),
+            }, { onConflict: ["assignment_id", "user_id"] });
+
+            if (upsertError) console.error("Error saving score:", upsertError);
         } catch (err) {
             setOutput("❌ Compilation or Runtime Error:\n" + (err.response?.data?.message || err.message));
         }
@@ -153,7 +182,7 @@ const AssignmentPage = () => {
                 ))}
             </ul>
 
-            {testCases.length > 0 && (
+            {testCases.length > 0 && !isInstructor && (
                 <>
                     <h2>Run Your Code</h2>
                     <select value={language} onChange={(e) => setLanguage(Number(e.target.value))}>
@@ -175,6 +204,30 @@ const AssignmentPage = () => {
 
                     <h3>Output:</h3>
                     <pre className="output-box">{output}</pre>
+                </>
+            )}
+
+{isInstructor && scores.length > 0 && (
+                <>
+                    <h2>Student Scores</h2>
+                    <table className="score-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Score (%)</th>
+                                <th>Last Submitted</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {scores.map((s) => (
+                                <tr key={s.user_id}>
+                                    <td>{s.user_profiles?.display_name || s.user_id}</td>
+                                    <td>{s.score}</td>
+                                    <td>{new Date(s.last_submitted).toLocaleString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </>
             )}
 
