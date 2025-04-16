@@ -113,12 +113,11 @@ const AssignmentPage = () => {
             for (let test of testCases) {
                 const token = await runTestCase(language, code, test.input, test.expected_output);
                 let result = await getResult(token);
-                while (result.status.id === 2) {
-                    result = await getResult(token);
-                }
+                while (result.status.id === 2) result = await getResult(token);
 
                 const actualOutput = result.stdout?.trim() || "";
-                const passed = result.status.id === 3 && actualOutput === test.expected_output.trim();
+                //const passed = result.status.id === 3 && actualOutput.includes(test.expected_output.trim());
+                const passed = actualOutput.includes(test.expected_output.trim());
                 if (passed) passedCount++;
 
                 const errorMessage = result.stderr || result.compile_output || result.message || "Unknown Error";
@@ -131,14 +130,23 @@ const AssignmentPage = () => {
             setOutput(results.join('\n---\n'));
 
             const score = Math.round((passedCount / testCases.length) * 100);
-            const { error: upsertError } = await supabase.from("scores").upsert({
-                assignment_id: assignmentId,
-                user_id: userId,
-                score,
-                last_submitted: new Date().toISOString(),
-            }, { onConflict: ["assignment_id", "user_id"] });
+            // Fetch current attempts
+            const { data: existing } = await supabase
+                .from("scores")
+                .select("attempts")
+                .eq("assignment_id", assignmentId)
+                .eq("user_id", userId)
+                .single();
 
-            if (upsertError) console.error("Error saving score:", upsertError);
+            const attempts = existing?.attempts ? existing.attempts + 1 : 1;
+
+            await supabase.from("scores").upsert({
+                    assignment_id: assignmentId,
+                    user_id: userId,
+                    score,
+                    last_submitted: new Date().toISOString(),
+                    attempts,
+                }, { onConflict: ["assignment_id", "user_id"] });
         } catch (err) {
             setOutput("❌ Compilation or Runtime Error:\n" + (err.response?.data?.message || err.message));
         }
@@ -215,6 +223,7 @@ const AssignmentPage = () => {
                             <tr>
                                 <th>Student</th>
                                 <th>Score (%)</th>
+                                <th>Attempts</th>
                                 <th>Last Submitted</th>
                             </tr>
                         </thead>
@@ -223,6 +232,7 @@ const AssignmentPage = () => {
                                 <tr key={s.user_id}>
                                     <td>{s.user_profiles?.display_name || s.user_id}</td>
                                     <td>{s.score}</td>
+                                    <td>{s.attempts}</td>
                                     <td>{new Date(s.last_submitted).toLocaleString()}</td>
                                 </tr>
                             ))}
