@@ -25,7 +25,7 @@ const AuthPopup = ({ closePopup }) => {
                 email,
                 password,
                 options: {
-                    data: { username, role },
+                    data: { username, role, display_name: username },
                 },
             });
 
