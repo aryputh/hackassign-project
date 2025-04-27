@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Submission() {
   return (
     <div>
-      <h1>Submission</h1>
+      <h4>Submission</h4>
       <p>Submission would be here.</p>
       <Link to="/dashboard"><button>Dashboard</button></Link>
     </div>

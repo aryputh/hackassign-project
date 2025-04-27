@@ -172,9 +172,10 @@ const ClassPage = () => {
         }
     };
 
+   
     return (
         <div className="class-container">
-            <h1>{classData?.name}</h1>
+            <h4>{classData?.name}</h4>
             <p><strong>Instructor:</strong> {instructorName}</p>
             <h2>Assignments</h2>
             <div className="assignment-grid">

@@ -131,7 +131,7 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <h1>Welcome to Your Dashboard</h1>
+            <h4>Welcome to Your Dashboard</h4>
             <button className="secondary-btn" onClick={handleSignOut}>Sign Out</button>
 
             {/* Show Add Class button only if the user is an instructor */}

@@ -1,23 +1,53 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400|Playfair+Display:400,700,400italic|Libre+Baskerville:400,700,400italic|Muli:300,400|Open+Sans:400,300,700|Oswald:400,700|Raleway:400,100,300,700|Montserrat:400,700|Merriweather:400,300,300italic,400italic,700|Bree+Serif|Vollkorn:400italic,400,700|Abril+Fatface|Cardo:400,400italic);
+
 /* Primary action button */
 .primary-btn {
-    background: #007bff;
+    background: rgb(163, 195, 255);
     color: white;
     border: none;
-    padding: 10px 15px;
-    margin: 5px;
+    /*padding: 10px 15px;*/
+    /*margin: 5px;*/
+    margin-right: 8%;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    transition: background 0.2s ease-in-out;
+    transition: var(--left) 0.2s ease-in-out;
 }
 
+/*
+.trans-btn {
+    background: none;
+    opacity: 1;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    color: inherit; 
+    cursor: pointer;
+    align-items: center;
+  }
+  */
+  .trans-btn {
+    all: unset; /* Resets all button styles */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem; /* Adjust size of the icon */
+    color: inherit; /* Icon color comes from parent */
+  }
+  
+.trans-btn:hover {
+    transform: scale(1.1);
+  }
 .primary-btn:hover {
-    background: #0056b3;
+    background: var(--left);
 }
 
 /* Secondary button for less critical actions */
 .secondary-btn {
-    background: #6c757d;
+    /*background: #6c757d;*/
+    background: var(--left);
     color: white;
     border: none;
     padding: 8px 12px;
@@ -29,7 +59,7 @@
 }
 
 .secondary-btn:hover {
-    background: #545b62;
+    background: #314336;
 }
 
 /* Danger button for destructive actions */
@@ -50,10 +80,21 @@
 }
 
 /* Header Styling */
-h1, h2, h3 {
+h1 {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #ffffffcc;
+}
+h2, h3 {
     font-family: 'Courier New', monospace;
     font-weight: bold;
-    color: #333;
+    color: #34573c;
+}
+h4 {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #34573c;
+  font-size: 32px;
 }
 
 h1 {
@@ -115,18 +156,18 @@ a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
+   /* background: rgba(0, 0, 0, 0.5);*/
+    display:flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
 .popup-content {
-    background: #fff;
+    background: #ffffffcc;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(1, 40, 14, 0.1);
     width: 400px;
     max-width: 90%;
 }
@@ -173,7 +214,7 @@ a:hover {
 }
 
 .switch-link {
-    color: #007bff;
+    color: #34573c;
     cursor: pointer;
     margin-top: 10px;
 }
@@ -196,3 +237,335 @@ a:hover {
     padding: 20px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+section{
+    
+    background-color: #2d2d2d;
+    height: 633px;
+    padding: 3rem 0;
+    position: relative;
+        content: attr(data-description);
+        font-size: 0.9rem;
+        font-family: 'oswald';
+        
+  }
+.wrapper{
+    max-width: 53.33rem;
+    margin: 0 auto;
+    position:fixed;
+    z-index: 10;
+    transform: translateY(-50%);
+    top:50%;
+    text-align: center;
+  }
+  section:before{
+    content: attr(data-description);
+    font-size: 0.9rem;
+    font-family: 'oswald';
+    color: #ffffffcc;
+    position: absolute;
+    z-index: 20;
+    left: 2rem;
+    top: 2rem;
+  }
+
+  html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  /* Basically just a bunch of typeface classes, some helper classes(letter-spacing, font-weight, etc.), decorative classes(line-on-headers, double-lines, etc). Three types of bg, image, gradient and solid color. I do this for testing headings/hero-image typography. Now there are ten presets here, but you can mix everything. I know that this brings to classivitis, but I still didn't dwelved into Saas, it is next on my learning roadmap, but I will create a fork soon with Saas and variables. */
+  
+  
+  /* Preset 1 ---- Bold/cursive  */
+  /* Preset 2 ---- Thin/bold  */
+  /* Preset 3 ---- Add emphasis with color */
+  /* Preset 4 ---- Thin/Super bold/thin */
+  /* Preset 5 ---- Playing with serifs */
+  /* Preset 6 ---- Super contrast */
+  /* Preset 7 ---- Vertical text */
+  /* Preset 8 ---- Playful type */
+  /* Preset 9 ---- Middle flourish */
+  /* Preset 10 ---- Overlay text */
+  
+  /* ==== Font sizes(based on Typeplate's scale) ==== */
+  html {
+    font: normal 112.5%/1.65 serif; /* base font size 18px with 1.65 line-height */
+    -moz-font-feature-settings: "liga=1, dlig=1"; /* common and discretionary ligatures */
+      -ms-font-feature-settings: "liga", "dlig";
+      -webkit-font-feature-settings: "liga", "dlig";
+      -o-font-feature-settings: "liga", "dlig";
+      font-feature-settings: "liga", "dlig";
+  }
+  /*
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1;
+    margin-top: 0;
+    color: #fff;
+    display: inline-block;
+    position: relative;
+  }
+  p{
+    margin-top: 4rem;
+    color: #fff;
+    font-size: 0.9rem;
+    line-height: 1
+  }*/
+  .gigantic{font-size: 11rem;}
+  .supersize{font-size: 8rem;}
+  .tera {
+    font-size: 6.5rem; /* 117 / 18 = 6.5 */
+    margin-bottom: 0.25385rem;
+  }
+  
+  .giga {
+    font-size: 5rem; /* 90 / 18 = 5 */
+    margin-bottom: 0.33rem;
+  }
+  
+  .mega {
+    font-size: 4rem; /* 72 / 18 = 4 */
+    margin-bottom: 0.4125rem;
+  }
+  
+  .alpha {
+    font-size: 3.33333rem; /* 60 / 18 = 3.3333 */
+    margin-bottom: 0.495rem;
+  }
+  
+  .beta {
+    font-size: 2.6667rem; /* 48 / 18 = 2.6667 */
+    margin-bottom: 0.61875rem;
+  }
+  
+  .gamma {
+    font-size: 2rem; /* 36 / 18 = 2 */
+    margin-bottom: 0.825rem;
+  }
+  
+  .delta {
+    font-size: 1.3333333333333333rem; /* 24 / 18 = 1.3333 */
+    margin-bottom: 1.2375rem;
+  }
+  
+  .epsilon {
+    font-size: 1.16667rem; /* 21 / 18 = 1.1667 */
+    margin-bottom: 1.41429rem;
+  }
+  
+  .zeta {
+    font-size: 1rem; /* 18 = 18 × 1 */
+    margin-bottom: 1.65rem;
+  }
+  /* ==== Typefaces  ==== */
+  
+  .open-sans{font-family: 'Open Sans';}
+  .lato{font-family: 'Lato'}
+  .playfair-display{font-family: 'Playfair Display'}
+  .libre-baskerville{font-family: 'Libre Baskerville'}
+  .oswald{font-family: 'Oswald'}
+  .montserrat{font-family: 'Montserrat'}
+  .vollkorn{font-family: 'Vollkorn'}
+  .bree-serif{font-family: 'Bree Serif'}
+  .raleway{font-family: 'Raleway'}
+  .merriweather{font-family: 'Merriweather'}
+  .cardo{font-family: 'Cardo'}
+  .abril-fatface{font-family: 'Abril Fatface'}
+  .muli{font-family: 'Muli'}
+  
+  /* ==== Weights, styles, letterspacing, etc. ==== */
+  
+  .thin{font-weight: 100;}
+  .light{font-weight: 300;}
+  .regular{font-weight: 400;}
+  .bold{font-weight: 700;}
+  .italic{font-style: italic;}
+  .normal{font-style: normal;}
+  .ls-small{letter-spacing: 2px;}
+  .ls-medium{letter-spacing: 4px;}
+  .ls-large{letter-spacing: 8px;}
+  .ls-xlarge{letter-spacing: 12px;}
+  .uppercase{text-transform: uppercase;}
+  .color-emphasis-1{color: #99d98ccc}
+  .color-emphasis-2{color: #000;}
+  .color-emphasis-3{color: #60547c}
+  .text-left{text-align: left;}
+  .line-height-small{line-height: 1.2}
+  .line-height-medium{line-height: 1.45}
+  .line-height-large{line-height: 1.65}
+  
+  :root {
+    --left: #0f323b 10%;
+    --right: #34573c 90%;
+  }
+  section:nth-of-type(1){
+    background: -webkit-linear-gradient(90deg, var(--left), var(--right)); /* Chrome 10+, Saf5.1+ */
+    background:    -moz-linear-gradient(90deg, var(--left), var(--right)); /* FF3.6+ */
+    background:     -ms-linear-gradient(90deg, var(--left), var(--right)); /* IE10 */
+    background:      -o-linear-gradient(90deg, var(--left), var(--right)); /* Opera 11.10+ */
+    background:         linear-gradient(90deg, var(--left), var(--right)); /* W3C */
+          
+          
+  }
+
+
+  /*NEW VERSION OF BACKGROUND COLOR*/
+/*
+  body, html {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+*/
+  .welcome-container {
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, var(--left), var(--right));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    color: #ffffffcc;
+    padding: 20px;
+  }
+
+  .welcome-container h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .welcome-container button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    background-color: white;
+    color: #34573c;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .welcome-container button:hover {
+    background-color: #e0e0e0;
+  }
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 600,
+  'GRAD' 0,
+  'opsz' 48;
+  
+}
+
+
+/*textbox*/
+
+@import url('https://fonts.googleapis.com/css?family=Damion|Muli:400,600');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body{
+  font-family: 'Muli', sans-serif;
+  background: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");
+}
+h2 {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    color: #34573c;
+    font-size: 35px;
+    text-align: center;
+    position: relative;
+}
+h2:before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    left: 0;
+    top: 50px;
+    background: #34573c;
+    height: 3px;
+}
+h2 i {
+    font-style: normal;
+    background: #fff;
+    position: relative;
+    padding: 10px;
+}
+:focus{outline: none;}
+
+/* necessary to give position: relative to parent. */
+input[type="text"]{font: 15px/24px 'Muli', sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px;}
+
+
+:focus{outline: none;}
+
+.col-3{
+    display: block;
+    float: left; 
+    width: 27.33%; 
+    position:relative;
+} /* necessary to give position: relative to parent. */
+
+
+input[type="text"]{font: 15px/24px "Lato", Arial, sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px;}
+
+
+
+.effect-5 {
+    display: flex;
+    flex-direction: column;
+    column-gap: 10px;
+}
+
+input#password-input.effect-5{
+    margin-top:7%;
+
+}
+
+
+
+.effect-6{
+    border: 0;
+    padding: 2px 0 7px; 
+    border: 1px solid transparent; 
+    border-bottom-color: #ccc; 
+    transition: 0.4s;
+}
+
+
+.effect-5:focus,
+.effect-6:focus{padding: 5px 14px 7px; transition: 0.4s;}
+
+
+.effect-5 ~ .focus-border{position: absolute; height: 36px; bottom: 0; left: 0; width: 0; transition: 0.4s;}
+.effect-5:focus ~ .focus-border{width: 100%; transition: 0.4s; border: 2px solid #4caf50;}
+
+.effect-6 ~ .focus-border{position: absolute; height: 36px; bottom: 0; right: 0; width: 0; transition: 0.4s;}
+.effect-6:focus ~ .focus-border{width: 100%; transition: 0.4s; border: 2px solid #4caf50;}
+
+
+/*<input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />*/
+
+
+
+
+
+                
+.login-items-section{
+    margin-top: 5%;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.login-symbol{
+  cursor: pointer;
+}
+

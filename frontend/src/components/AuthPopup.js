@@ -56,8 +56,13 @@ const AuthPopup = ({ closePopup }) => {
                 <span className="secondary-btn" onClick={closePopup}>&times;</span>
                 <h2>{isRegistering ? "Register" : "Login"}</h2>
                 {error && <p className="error-text">{error}</p>}
-                <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                
+                
+                <input class="effect-5" type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                {/* <span class="focus-border"></span> */}
+                <input id= "password-input" class="effect-5" type="text" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}  />
+                {/* <span class="focus-border"></span> */}
+                
                 
                 {isRegistering && (
                     <select value={role} onChange={(e) => setRole(e.target.value)}>
@@ -66,13 +71,16 @@ const AuthPopup = ({ closePopup }) => {
                     </select>
                 )}
 
-                <button className="primary-btn" onClick={handleAuth}>{isRegistering ? "Register" : "Login"}</button>
-                <p onClick={() => setIsRegistering(!isRegistering)} className="switch-link">
-                    {isRegistering ? "Have an account? Login" : "No account? Register"}
-                </p>
+                <div className="login-items-section">
+                    <button className="primary-btn" onClick={handleAuth}>{isRegistering ? "Register" : "Login"}</button>
+                    <p onClick={() => setIsRegistering(!isRegistering)} className="switch-link">
+                        {isRegistering ? "Have an account? Login" : "No account? Register"}
+                    </p>
+                </div>
             </div>
         </div>
     );
 };
 
 export default AuthPopup;
+

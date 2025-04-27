@@ -95,6 +95,7 @@ const ManageClass = ({ classId, closePopup, refreshClassName }) => {
         }
     };
 
+
     return (
         <div className="popup-overlay">
             <div className="popup-content">
@@ -136,3 +137,4 @@ const ManageClass = ({ classId, closePopup, refreshClassName }) => {
 };
 
 export default ManageClass;
+

@@ -168,7 +168,7 @@ const AssignmentPage = () => {
 
     return (
         <div className="assignment-container">
-            <h1>{assignment.name}</h1>
+            <h4>{assignment.name}</h4>
             <p>{assignment.details}</p>
             <p><strong>Due Date:</strong> {assignment.due_date}</p>
             <p><strong>Late Submissions:</strong> {assignment.allow_late ? "Allowed" : "Not Allowed"}</p>
@@ -199,7 +199,7 @@ const AssignmentPage = () => {
                 ))}
             </ul>
 
-            {testCases.length > 0 && !isInstructor && (
+            {testCases.length > 0 && (
                 <>
                     <h2>Run Your Code</h2>
                     <select value={language} onChange={(e) => setLanguage(Number(e.target.value))}>
@@ -221,32 +221,6 @@ const AssignmentPage = () => {
 
                     <h3>Output:</h3>
                     <pre className="output-box">{output}</pre>
-                </>
-            )}
-
-{isInstructor && scores.length > 0 && (
-                <>
-                    <h2>Student Scores</h2>
-                    <table className="score-table">
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>Score (%)</th>
-                                <th>Attempts</th>
-                                <th>Last Submitted</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {scores.map((s) => (
-                                <tr key={s.user_id}>
-                                    <td>{s.user_profiles?.display_name || s.user_id}</td>
-                                    <td>{s.score}</td>
-                                    <td>{s.attempts}</td>
-                                    <td>{new Date(s.last_submitted).toLocaleString()}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
                 </>
             )}
 
